@@ -4,90 +4,100 @@
     <meta charset="UTF-8">
     <title>13 квітня</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<style>
-	*
-	{
-		box-sizing: border-box;
-	}
-.body
-{
-    display: inline-block;
-    padding-top:143px;
-    padding-bottom:184px;
-    padding-left:160px;
-    padding-right:160px;
-	background-color: white;
-	width:1200px;
-	height:1600px;
-    transform:scale(0.5,0.5) translateY(-50%) !important;
-    box-shadow:1px 1px 5px rgba(0,0,0,0.3);
-}
-.content
-{
-    overflow:hidden;
-}
-.label
-{
-    height:16px ;
-    width:64px;
-    display:block;
-    position:absolute;
-    left:50%;
-  	top:50%;
-    margin-top:-8px;
-    margin-left:-32px;
-	transform: none;
-	transition: all 3s ease-in-out;
-}
-.label.red
-{
-   
-    background-color:rgba(246,103,80,0.9);
-
-}
-.label.blue
-{
-    background-color:rgba(60,76,230,0.9);
-
-}
-.cell
-{
-    width:96px;
-    height:96px;
-    position:relative;
-	float:left;
-}
-body
-{
-    background-color:lightgray;
-    text-align: center;
-}
-</style>
-<script>
-    Array.prototype.random = function () {
-        return this[Math.floor((Math.random() * this.length))];
-    }
-    $(function () {
-        for (var i = 0; i < 117; i++) {
-            $("<div class='cell'><div class='label red'></div><div class='label blue'></div></div>").appendTo(".body .content");
+    <style>
+        * {
+            box-sizing: border-box;
         }
-        var f = function () {
-            $(".label").each(function () {
 
-                var delta = [0,0,10,10,10,10,10, 25, 25, 25, 25, 25, 40, 40, 40, 80, 80, 100, 150].random();
-                $(this).css("transform", "rotate(" + (Math.random() * 360) + "deg) translate(" + (Math.random() * (delta * 2) - delta) + "%," + (Math.random() * (delta * 2) - delta) + "%)");
-            })
-        };
-        setTimeout(f, 0);
-        setInterval(f, 8000);
+        .body {
+            display: inline-block;
+            padding-top: 143px;
+            padding-bottom: 184px;
+            padding-left: 160px;
+            padding-right: 160px;
+            background-color: white;
+            width: 1200px;
+            height: 1600px;
+            transform: scale(0.5, 0.5) translateY(-50%) !important;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
 
-    });
+        .content {
+            overflow: hidden;
+        }
 
-</script>
-    </head>
+        .label {
+            height: 16px;
+            width: 64px;
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -8px;
+            margin-left: -32px;
+            transform: none;
+            transition: all 3s ease-in-out;
+        }
+
+        .label.red {
+
+            background-color: rgba(246, 103, 80, 0.9);
+
+        }
+
+        .label.blue {
+            background-color: rgba(60, 76, 230, 0.9);
+
+        }
+
+        .cell {
+            width: 96px;
+            height: 96px;
+            position: relative;
+            float: left;
+        }
+
+        body {
+            background-color: lightgray;
+            text-align: center;
+        }
+    </style>
+    <script>
+        Array.prototype.random = function () {
+            return this[Math.floor((Math.random() * this.length))];
+        }
+        $(function () {
+            function randomDelta()
+            {
+               return [0, 0, 10, 10, 10, 10, 10, 25, 25, 25, 25, 25, 40, 40, 40, 80, 80, 100, 150].random()
+            }
+            for (var i = 0; i < 117; i++) {
+                $("<div class='cell'>" +
+                        "<div class='label red'>" +
+                        "</div>" +
+                        "<div class='label blue'>" +
+                        "</div>" +
+                  "</div>").appendTo(".body .content");
+            }
+            var f = function () {
+                $(".label").each(function () {
+
+                    var deltaX = randomDelta(), deltaY = randomDelta();
+                    $(this).css("transform", "rotate(" + (Math.random() * 360) + "deg) " +
+                            "                 translate(" + (Math.random() * (deltaX * 2) - deltaX) + "%,"
+                                            + (Math.random() * (deltaY * 2) - deltaY) + "%)");
+                })
+            };
+            setTimeout(f, 0);
+            setInterval(f, 8000);
+        });
+    </script>
+</head>
 <body>
 <div class="body">
-<div class="content"></div>
+    <div class="content">
+
+    </div>
 </div>
 </body>
 </html>
