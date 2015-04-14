@@ -37,6 +37,7 @@
             margin-left: -32px;
             transform: none;
             transition: all 2s cubic-bezier(.12,.46,.91,1.1) ;
+            -webkit-animation:move 1s infinite ease-in ;
         }
 
         .label.red {
@@ -61,11 +62,22 @@
             background-color: lightgray;
             text-align: center;
         }
+        @-webkit-keyframes move {
+            0%{
+                width:64px;
+            }
+            40% {
+                width:62px;
+            }
+            80% {
+                width:64px;
+            }
+        }
     </style>
     <script>
         Array.prototype.random = function () {
             return this[Math.floor((Math.random() * this.length))];
-        }
+        };
         $(function () {
             function randomDelta()
             {
@@ -88,6 +100,7 @@
                                             + (Math.random() * (deltaY * 2) - deltaY) + "%)");
                 })
             };
+
             setTimeout(f, 0);
             setInterval(f, 8000);
         });
