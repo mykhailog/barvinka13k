@@ -48,7 +48,7 @@
 .label.blue
 {
     background-color:rgba(60,76,230,0.9);
-   
+
 }
 .cell
 {
@@ -74,7 +74,7 @@ body
         var f = function () {
             $(".label").each(function () {
 
-                var delta = [25, 25, 25, 25, 25, 25, 40, 40, 40, 80, 80, 100, 150].random();
+                var delta = [0,0,10,10,10,10,10, 25, 25, 25, 25, 25, 40, 40, 40, 80, 80, 100, 150].random();
                 $(this).css("transform", "rotate(" + (Math.random() * 360) + "deg) translate(" + (Math.random() * (delta * 2) - delta) + "%," + (Math.random() * (delta * 2) - delta) + "%)");
             })
         };
