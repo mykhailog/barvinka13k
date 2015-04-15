@@ -274,7 +274,7 @@
                         var $, applyTransform, getTransform, makeTransformable;
 
                         $ = jQuery;
-
+                        var isTouch = document.ontouchmove !== undefined,
                         getTransform = function(from, to) {
                             var A, H, b, h, i, k_i, lhs, rhs, _i, _j, _k, _ref;
                             console.assert((from.length === (_ref = to.length) && _ref === 4));
@@ -355,11 +355,12 @@
                                     var _i, _len, _ref, _results;
                                     _ref = ['left top', 'left bottom', 'right top', 'right bottom'];
                                     _results = [];
+                                    var size = isTouch? "40px" : "16px";
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         position = _ref[_i];
                                         _results.push($('<div>').css({
-                                            border: '16px solid black',
-                                            borderRadius: '16px',
+                                            border: size + ' solid rgba(0,0,0,0.7)',
+                                            borderRadius: size,
                                             cursor: 'move',
                                             position: 'absolute',
                                             zIndex: 100000
