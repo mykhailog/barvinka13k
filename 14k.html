@@ -6,6 +6,11 @@
     <title>14 квітня</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+
+
     <style>
         body
         {
@@ -259,12 +264,11 @@
                 }
             });
 
-            /* Just for fun */
-            var selector = '.cube'; // Replace this with the selector for the element you want to make transformable
+
+            var selector = '.cube';
 
 
-            jQuery.getScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js', function() {
-                jQuery.getScript('//cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js', function() {
+
 
                     (function() {
                         var $, applyTransform, getTransform, makeTransformable;
@@ -420,8 +424,7 @@
 
                     makeTransformable(selector);
 
-                });
-            });
+
 
         });
 
