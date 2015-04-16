@@ -231,7 +231,7 @@
     }
 
     function plant_tree() {
-        var magnitude = canvas.height / 8,
+        var magnitude = canvas.height / 9,
                 l = 0,
                 thickness = 2,
                 theta = 0,
@@ -290,7 +290,7 @@
         var y = (branch.tip.y - branch.origin.y);
         var h = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-        if (h >= branch.magnitude * 1.2) {
+        if (h >= branch.magnitude) {
             branch.done = true;
 
             if (branch.magnitude < smallest_branch) return false;
