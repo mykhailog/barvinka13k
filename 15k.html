@@ -15,12 +15,16 @@
         margin: 0px;
         padding: 0px;
         background-color: black;
-        background-image: url(http://media1.giphy.com/media/k7FqPLvrZP0kg/giphy.gif);
+
         background-size: 100% 100%;
         width: 100vw;
         height: 100vh;
         background-repeat: no-repeat;
         -webkit-transform: translate3d(0, 0, 0);
+    }
+    body.train
+    {
+        background-image: url(http://media1.giphy.com/media/k7FqPLvrZP0kg/giphy.gif);
     }
 
     .container {
@@ -187,9 +191,10 @@
                 $("canvas").one("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
                     isDone = false;
                     $("canvas").removeClass("deprecated removing");
+                    $("body").addClass("train");
                     plant_tree();
                 });
-            }, 10000);
+            }, 20000);
         }
 
     }
@@ -247,6 +252,7 @@
         })) {
             isDone = true;
             $("#birds").removeClass("deprecated");
+            $("body").removeClass("train");
         }
     }
 
@@ -331,7 +337,7 @@
 }());
 </script>
 </head>
-<body>
+<body class="train">
 <div class="container">
     <canvas class="tree"></canvas>
     <div id="birds" class="deprecated"></div>
