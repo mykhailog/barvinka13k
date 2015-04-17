@@ -146,10 +146,10 @@
 
             $(function () {
                 var MASK = [];
-                $.get("16k/mask.txt", function (t) {
+                $.get("16k-files/mask.txt", function (t) {
                     SOURCE_MASK = t;
                     window.MASK = SOURCE_MASK.split("\n");
-                    $.get("16k/text.txt", function (sourceText) {
+                    $.get("16k-files/text.txt", function (sourceText) {
                         generateText(sourceText,0);
                         var f = function () {
 
