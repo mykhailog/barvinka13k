@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="uk">
+    <meta charset="UTF-8">
+    <title>16 квітня</title>
+    <script src="jquery.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Fira+Mono&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <style>
+        body
+        {
+            max-width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+        *{
+            box-sizing:border-box;
+        }
+        .hidden
+        {
+            display: none;
+        }
+        body
+        {
+            background-color:rgba(49,45,119,1);
+            text-align: center;
+        }
+        .line
+        {
+            position: relative;
+            padding: 0px;
+            margin: 0px;
+            white-space: pre-wrap;
+        }
+        body > div
+        {
+            font-family: 'Fira Mono',monospace;
+            font-size:1vh;
+            text-align: left;
+            display: inline-block;
+            color:rgba(224,74,84,1);
+            text-transform: uppercase;
+
+
+        }
+
+        .cursor {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+
+            right:0;
+
+            background: rgba(49,45,119,1);
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border-left: 0.45vh solid;
+            -webkit-animation: typing 2s  ease-in ,
+            blinking 1s step-end infinite;
+            animation: typing 2s  ease-in ,
+            blinking 1s step-end infinite;
+
+        }
+
+
+        @-webkit-keyframes typing {
+
+            from { width: 100%; }
+            to { width: 0; }
+        }
+
+        @keyframes typing {
+            from { width: 100%; }
+            to { width: 0; }
+        }
+
+        @-webkit-keyframes blinking {
+            from, to { border-color: transparent; }
+            50% { border-color:rgba(224,74,84,1) }
+        }
+
+        @keyframes blinking {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(224,74,84,1); }
+        }
+
+    </style>
+    <script>
+            function generateText(sourceText,l)
+            {
+                var lines = [];
+                var lineDom = $("body > div .line");
+                var updateOnly= lineDom.length != 0;
+
+
+                if(!l)
+                l=0;
+                for (var y = 0; y < MASK.length; y++) {
+                    var line="";
+
+                    var char;
+                    for (var x = 0; x < MASK[y].length; x++) {
+                        if(MASK[y][x]==" ")
+                        {
+                            char=" ";
+                        }
+                        else
+                        {
+
+
+                            do
+                            {
+                                char=sourceText.charAt(l);
+                                l+=1;
+                                l%=sourceText.length;
+                                if (l > sourceText.length) {
+                                    l=0;
+
+                                }
+                            } while( char=="\n" )
+
+
+                        }
+
+
+                        line+=char;
+                    }
+                    if(!updateOnly)
+                    {
+                        lines.push("<div class='line hidden'><span class='text'>" + line +"</span><span class='cursor'></span></div>");
+                    }
+                    else
+                    {
+                           $(lineDom[y]).find(".text").html(line);
+                    }
+
+
+                }
+                if(!updateOnly)
+                {
+                    var text = lines.join("\n");
+                    $("body > div").html(lines );
+                }
+
+            }
+
+
+            $(function () {
+                var MASK = [];
+                $.get("16k/mask.txt", function (t) {
+                    SOURCE_MASK = t;
+                    window.MASK = SOURCE_MASK.split("\n");
+                    $.get("16k/text.txt", function (sourceText) {
+                        generateText(sourceText,0);
+                        var f = function () {
+
+                            var el = $(".line.hidden:first").removeClass("hidden");
+                            el.find(".cursor").on("webkitAnimationEnd oanimationend msAnimationEnd animationend",function(e)
+                            {
+                                if(e.originalEvent.animationName=="typing")
+                                {
+                                    $(this).remove();
+                                }
+                            });
+                        };
+                        f();
+                        setInterval(f,50);
+                        window.L = 0;
+                        setInterval(function(){
+                            window.L++;
+                            generateText(sourceText,window.L);
+                        },500);
+                    });
+                });
+
+            });
+
+
+
+    </script>
+</head>
+<body>
+<div>
+
+</div>
+</body>
+</html>
