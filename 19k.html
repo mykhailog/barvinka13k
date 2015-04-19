@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="uk">
+    <meta charset="UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt:700' rel='stylesheet' type='text/css'>
+    <title>19 квітня</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        * {
+            -moz-box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        body {
+            -moz-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+            -o-transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            background-color: rgba(236, 232, 226, 1);
+            text-align: center;
+            margin: 0;
+            padding: 0
+        }
+
+        .body {
+            display: inline-block;
+            width: 64vmax;
+            text-align: left
+        }
+
+        .label.falling {
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+            filter: alpha(opacity=40);
+            opacity: 0.4
+        }
+        .webkit .label
+        {
+            background-image: url(http://udaipurmarble.com/wp-content/uploads/2012/02/Dark.jpg)
+        }
+        .label div {
+            overflow: hidden;
+            margin-top: -20vmax;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-fill-color: transparent;
+            font-size: 20vmax;
+            font-weight: bold;
+            font-family: Rokkitt;
+
+        }
+
+        .label {
+            height: 10vmax;
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -4vmax;
+            margin-left: -4vmax;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+
+            clip-path: url(#clipPath);
+            -webkit-clip-path: url(#clipPath);
+            -moz-transform-origin: 2.45vmax -3.45vmax;
+            -ms-transform-origin: 2.45vmax -3.45vmax;
+            -o-transform-origin: 2.45vmax -3.45vmax;
+            -webkit-transform-origin: 2.45vmax -3.45vmax;
+            transform-origin: 2.45vmax -3.45vmax
+        }
+
+        .cell {
+            width: 8vmax;
+            height: 7vmax;
+            position: relative;
+            float: left
+        }
+
+        body {
+            text-align: center
+        }
+    </style>
+    <script>
+        Array.prototype.random = function () {
+            return this[Math.floor((Math.random() * this.length))];
+        };
+        $(function () {
+            if($("body").css("-webkit-background-clip"))
+            {
+                $("body").addClass("webkit");
+            }
+            for (var i = 0; i < 8 * 9; i++) {
+                $("<div class='cell'>" +
+                        "<div class='label '><div>,</div>" +
+                        "</div>" +
+                        "</div>").appendTo(".body .content");
+            }
+            $(".label > div").each(function () {
+
+                $(this).css("background-position",(Math.random() * 400) +"px " +Math.random() * 400 + "px");
+
+            });
+            var randomizeInterval,derandomizing;
+            var falling= function () {
+                var e = $(".label:not(.falling):first");
+                if(e.length ==1)
+                {
+
+
+                    e.each(function () {
+                        $(this).addClass("falling");
+    //
+    //                    var deltaX = randomDelta(), deltaY = randomDelta();
+    //                    $(this).css("transform", "rotate(" + (Math.random() * 360) + "deg) " +
+    //                            "                 translate(" + (Math.random() * (deltaX * 2) - deltaX) + "%,"
+    //                            + (Math.random() * (deltaY * 2) - deltaY) + "%)");
+                   })
+                }
+                else
+                {
+                    clearTimeout(fallingInterval);
+                    randomizeInterval =  setInterval(randomize,300);
+                }
+
+            };
+            var randomizedCount = 0;
+            var randomize = function(){
+                var labels= $(".label:not(.randomized)");
+                if(labels.length > 0)
+                {
+                    var e = labels.toArray().random();
+                    var positions = [0,90,180,270,90];
+                    var opacity = $(e).data("opacity");
+                    if(!opacity)
+                    {
+                        opacity=0.9;
+                    }
+                    else
+                    {
+                        opacity=1;
+                    }
+
+
+                    if(opacity < 1)
+                    {
+                        $(e).css("opacity",opacity);
+                        $(e).data("opacity",opacity);
+                    }
+                    if(randomizedCount==2)
+                    {
+                        $(e).css("transform","").css("opacity","");
+                    }
+                    else
+                    {
+                        $(e).css("transform","rotate(" + positions.random() + "deg)");
+                    }
+
+
+                    $(e).addClass("randomized").removeClass("falling");
+                }
+                else
+                {
+
+                    if(!derandomizing)
+                    {
+                        derandomizing = true;
+                        setTimeout(function(){
+                            $(".label.randomized").removeClass("randomized");
+                            derandomizing = false;
+                            randomizedCount++;
+                            if(randomizedCount==3)
+                            {
+                                $(".label").removeClass("randomized");
+                                fallingInterval = setInterval(falling, 100);
+                                clearInterval(randomizeInterval);
+                                randomizedCount=0;
+                            }
+                        }, 3000);
+                    }
+
+                }
+
+
+            };
+            fallingInterval = setInterval(falling, 100);
+
+        });
+    </script>
+</head>
+<body>
+<div class="body">
+    <div class="content">
+
+    </div>
+</div>
+
+
+
+</body>
+</html>
