@@ -15,6 +15,7 @@
             margin: 0px;
             /*perspective: 1000;*/
             /*transform-style: preserve-3d;*/
+            -webkit-transition: all 1.0s linear;
             transition: all 1.0s linear;
 
         }
@@ -24,6 +25,7 @@
         }
         body .circles
         {
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             display: block;
         }
@@ -36,6 +38,7 @@
 
         body.reverted
         {
+            -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
         }
         .container
@@ -90,6 +93,7 @@
             margin-left: -12.5vw;
             margin-top: -12.5vw;
             opacity: 0.5;
+            filter: alpha(opacity=50);
 
         }
 
@@ -97,11 +101,13 @@
             width: 100%;
             height: 100%;
             position: absolute;
+            -webkit-transition: 1s linear all;
             transition: 1s linear all;
         }
 
         .circle {
-            border: 1px dotted rgba(212, 203, 221, 0.71);
+            border: 1px dotted rgba(212, 203, 221,1);
+            opacity:  0.7;
             border-radius: 100%;
             position: absolute;
 
@@ -117,12 +123,14 @@
             margin-top: -15vw;
             /*   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAIElEQVQIW2NkYGD4z8DAwMiABjAEYPJES8CNJVoH3AkAz5sCB3RsWA8AAAAASUVORK5CYII=);*/
             opacity: 0.2;
+            filter: alpha(opacity=20);
             border: 1px dotted #eeeae2;
         }
 
         .second {
             border-radius: 100%;
             opacity: 0.8;
+            filter: alpha(opacity=80);
             border: 2vw solid transparent;
             border-bottom-color: rgba(243, 157, 161, 0.9);
 
@@ -135,12 +143,14 @@
             top: 50%;
             margin-left: -7vw;
             margin-top: -7vw;
+            -webkit-transition: 1s linear all;
             transition: 1s linear all;
         }
 
         .minute {
             border-radius: 100%;
             opacity: 0.8;
+            filter: alpha(opacity=80);
             border: 2.7vw solid transparent;
             border-bottom-color: rgba(242, 77, 97, 1);
             border-left-color: rgba(242, 77, 97, 1);
@@ -153,12 +163,14 @@
             top: 50%;
             margin-left: -6vw;
             margin-top: -6vw;
+            -webkit-transition: 1s linear all;
             transition: 1s linear all;
         }
 
         .hour {
             border-radius: 100%;
             opacity: 0.9;
+            filter: alpha(opacity=90);
             border: 3vw solid transparent;
             border-bottom-color: rgba(235, 55, 56, 1);
             border-left-color: rgba(235, 55, 56, 1);
@@ -171,6 +183,7 @@
             top: 50%;
             margin-left: -8vw;
             margin-top: -8vw;
+            -webkit-transition: 1s linear all;
             transition: 1s linear all;
         }
 
@@ -179,15 +192,18 @@
         $(function () {
 
 
-
+            function css(e,prop,value)
+            {
+                e.css(prop,value);
+            }
 
 
             setInterval(function () {
                 var d = new Date();
-                $(".circles").css("-webkit-transform", "rotate(" + -(d.getSeconds() ) * 5 + "deg)");
-                $(".second").css("-webkit-transform", "rotate(" + (6 * d.getSeconds() + 45).toFixed(0) + "deg)");
-                $(".minute").css("-webkit-transform", "rotate(" + (6 * d.getMinutes() + 45 + d.getMinutes() * (6.0 / 60.0) ).toFixed(0) + "deg)");
-                $(".hour").css("-webkit-transform", "rotate(" + (6 * d.getHours() + 45 + d.getMinutes() * (6.0 / 60.0) ).toFixed(0) + "deg)");
+                css($(".circles"),"transform", "rotate(" + -(d.getSeconds() ) * 5 + "deg)");
+                css( $(".second"),"transform", "rotate(" + (6 * d.getSeconds() + 45).toFixed(0) + "deg)");
+               css( $(".minute"),"transform", "rotate(" + (6 * d.getMinutes() + 45 + d.getMinutes() * (6.0 / 60.0) ).toFixed(0) + "deg)");
+                css($(".hour"),"transform", "rotate(" + (15 * (d.getHours() %12) + 45 + d.getMinutes() * (15.0 / 60.0) ).toFixed(0) + "deg)");
             }, 500);
             function f() {
                 $(".clock .circles .circle").remove();
@@ -210,9 +226,7 @@
             $(window).resize(f);
             f();
             $(".container").removeClass("init");
-            setTimeout(function () {
 
-            }, 100);
         });
 
     </script>
