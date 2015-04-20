@@ -22,7 +22,14 @@
             margin: 0;
             padding: 0
         }
-
+        .yellow
+        {
+            -webkit-filter: hue-rotate(320deg) brightness(160%);
+        }
+        .red
+        {
+            -webkit-filter: hue-rotate(278deg);
+        }
         .body {
             display: inline-block;
             width: 64vmax;
@@ -119,7 +126,7 @@
 
 
                     e.each(function () {
-                        $(this).addClass("falling");
+                        $(this).addClass("falling").removeClass("yellow");
     //
     //                    var deltaX = randomDelta(), deltaY = randomDelta();
     //                    $(this).css("transform", "rotate(" + (Math.random() * 360) + "deg) " +
@@ -157,12 +164,19 @@
                         $(e).css("opacity",opacity);
                         $(e).data("opacity",opacity);
                     }
+                    if(randomizedCount==1)
+                    {
+                        $(e).addClass("red");
+                    }
                     if(randomizedCount==2)
                     {
+
                         $(e).css("transform","").css("opacity","");
+                        $(e).removeClass("red").addClass("yellow");
                     }
                     else
                     {
+
                         $(e).css("transform","rotate(" + positions.random() + "deg)");
                     }
 
