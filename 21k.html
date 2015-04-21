@@ -74,10 +74,18 @@
                 boid.init();
                 flock.addBoid(boid);
             }
-
-            view.onFrame = function(event){
-                flock.run();
-            }
+           var requestAnimationFrame = (function () {
+               return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                       function (callback, element) {
+                           window.setTimeout(callback, 1000 / 16);
+                       };
+           })();
+           requestAnimationFrame(function () {
+               flock.run();
+           });
+//            view.onFrame = function(event){
+//                flock.run();
+//            }
         });
 
 
