@@ -68,7 +68,7 @@
             paper.setup("content");
 
             var flock = new Flock();
-            for(var i=0; i<150; i++)
+            for(var i=0; i<100; i++)
             {
                 var boid = new Boid(new Point(canvasWidth/3+(Math.random()*canvasWidth /3 ), canvasHeight/10 +(Math.random()*(canvasHeight / 10) * 8 )));
                 boid.init();
@@ -80,12 +80,15 @@
                            window.setTimeout(callback, 1000 / 16);
                        };
            })();
-           requestAnimationFrame(function () {
-               flock.run();
-           });
-//            view.onFrame = function(event){
-//                flock.run();
-//            }
+
+//           function f() {
+//               flock.run();
+//               requestAnimationFrame(f);
+//           }
+//           f();
+            view.onFrame = function(event){
+                flock.run();
+            }
         });
 
 
