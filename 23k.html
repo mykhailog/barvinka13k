@@ -161,7 +161,7 @@
         },1);
         setTimeout(function(){
             setInterval(function(){
-                var c= $(".circle").toArray().random();
+                var c= $(".circle:not(.white)").toArray().random();
                 var whatToDo = ["small","small","small","black","black","white","small","pulsate","flash"].random();
                 if(whatToDo=="small")
                     $(c).toggleClass("small");
@@ -180,7 +180,7 @@
                         $(c).removeClass("black");
                         $(c).addClass("gray");
                     }
-                    else
+                    else  if($(c).hasClass("gray"))
                     {
                         $(c).addClass("black");
                         $(c).removeClass("gray");
@@ -191,13 +191,13 @@
                 }
                 if(whatToDo=="white")
                 {
-                    $(c).addClass("white");
+                    $(c).removeClass("black gray").addClass("white");
                 }
 
             },500);
             setInterval(function(){
-                var c= $(".circle").toArray().random();
-                $(c).addClass("white");
+                var c= $(".circle:not(.white)").toArray().random();
+                $(c).removeClass("black gray").addClass("white");
             },3000);
         },2000);
 
