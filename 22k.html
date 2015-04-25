@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="uk">
+<meta charset="UTF-8">
+
+<title>22 квітня</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body{
+        -webkit-transform:translate3d(0,0,0);
+        padding: 0px;
+    }
+    .line
+    {
+        transition: 0s width ease;
+
+    }
+    #content
+    {
+        width:100vw;
+        height: 100vh;
+    }
+
+</style>
+<script>
+
+
+
+$(function() {
+
+    var canvas = $("canvas");
+    canvas.css("width", "");
+    canvas.css("height", "");
+
+    canvas.attr("width", canvas.width());
+    canvas.attr("height", canvas.height());
+    window.canvasWidth = canvas.width();
+    window.canvasHeight = canvas.height();
+    canvas = canvas[0];
+    var context = canvas.getContext('2d');
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    var backingStoreRatio = context.webkitBackingStorePixelRatio ||
+                    context.mozBackingStorePixelRatio ||
+                    context.msBackingStorePixelRatio ||
+                    context.oBackingStorePixelRatio ||
+                    context.backingStorePixelRatio || 1,
+
+            ratio = devicePixelRatio / backingStoreRatio;
+
+// upscale the canvas if the two ratios don't match
+    if (devicePixelRatio !== backingStoreRatio) {
+
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+
+        canvas.width = oldWidth * ratio;
+        canvas.height = oldHeight * ratio;
+
+        canvas.style.width = oldWidth + 'px';
+        canvas.style.height = oldHeight + 'px';
+
+
+    }
+    var context = {
+        moveTo:function(x,y)
+        {
+            this.x= x;
+            this.y = y;
+
+        },
+        lineTo:function(x,y)
+        {
+           this.x2=x;
+           this.y2=y;
+        },
+        stroke: function(){
+            var x1 =this.x,x2=this.x2,y1=this.y,y2=this.y2;
+            var line = document.createElement("div");
+            var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+            line.style.height = "1px";
+            line.style.width =length + "px";
+            line.style.borderBottom= this.lineWidth + "px solid "  +this.strokeStyle;
+
+            line.style.position = "absolute";
+            var angle = Math.atan((y2-y1)/(x2-x1));
+            line.style.top = y1 + 0.5*length*Math.sin(angle) + "px";
+            line.style.left = x1 - 0.5*length*(1 - Math.cos(angle)) + "px";
+            line.style.transform = line.style.MozTransform = line.style.WebkitTransform = line.style.msTransform = line.style.OTransform= "rotate(" + angle + "rad)";
+            line.className="line";
+            $(line).appendTo("body");
+//            setTimeout(function(){
+//                line.style.width =length + "px";
+//            },100);
+            return line;
+        }
+
+
+
+    };
+    Number.prototype.random = function()
+    {
+       return  Math.random() * this;
+    };
+    Array.prototype.random = function () {
+        return this[Math.floor((Math.random() * this.length))];
+    };
+    var maxBranches = 10;
+    var maxGeneration=3;
+    var point = {x:(canvasWidth /2).random(), y:(canvasHeight / 2).random(),l:0,g:0, p :{l:maxBranches}};
+
+    var points =[point];
+    var r =150 + (20).random();
+    context.strokeStyle = "black";
+    context.lineWidth = 1;
+    function distance( point1, point2 )
+    {
+        var xs = 0;
+        var ys = 0;
+
+        xs = point2.x - point1.x;
+        xs = xs * xs;
+
+        ys = point2.y - point1.y;
+        ys = ys * ys;
+
+        return Math.sqrt( xs + ys );
+    }
+    function arrayMin(arr) {
+        var len = arr.length, min = Infinity,index;
+        while (len--) {
+            if (arr[len] < min) {
+                min = arr[len];
+                index=len;
+            }
+        }
+        return index;
+    };
+    setInterval(function(){
+        points.forEach(function(p){
+            context.moveTo(p.x, p.y);
+            if(p.l < maxBranches && p.p.l == maxBranches && p.g < maxGeneration)
+            {
+
+                var theta = (360).random() ;
+                if(["N","P","P"].random() == "N")
+                {
+//                    var minI = arrayMin(points.map(function(p2){
+//                        if(p.x ==p2.x && p.y == p2.y)
+//                        {
+//                            return Math.POSITIVE_INFINITY;
+//                        }
+//                        else
+//                            return distance(p,p2);
+//                    }));
+                    newPoint = points.filter(function(p2) {
+                        var l;
+                    if (p.x == p2.x && p.y == p2.y) {
+                        l =1000;
+                    }
+                    else
+                        l = distance(p, p2);
+                    return l < 150;
+                    }).random();
+
+
+                }
+                else
+                {
+                    var newPoint ={x: p.x + r * Math.cos((Math.PI / 180.0) * theta ),
+                    y: p.y + r * Math.sin((Math.PI / 180.0) * theta ), l:0 ,g: p.g +1};
+
+                        newPoint.p = p;
+                        points.push(newPoint);
+
+                }
+
+                context.lineTo(newPoint.x,newPoint.y );
+                context.stroke();
+
+
+
+                p.l++;
+
+            };
+        });
+
+    },500);
+
+});
+
+</script>
+</head>
+<body>
+
+<!--<canvas id="content" >-->
+
+<!--</canvas>-->
+
+</body>
+</html>
