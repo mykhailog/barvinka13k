@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="uk">
+<meta charset="UTF-8">
+
+<title>23 квітня</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+    * {
+        box-sizing: border-box
+    }
+    body
+    {
+        width:100vw;
+        height: 100vh;
+        background: rgb(9, 9, 50);;
+
+        overflow: hidden;
+        -webkit-transform:translate3d(0,0,0);
+        transform:translate3d(0,0,0);
+        font-family: 'Exo 2', sans-serif;
+        text-align: center;
+        font-size:100px;
+        font-weight: 100;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .content
+    {
+        width:500px;
+        height: 700px;
+        display: inline-block;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-perspective: 2000px;
+        perspective: 2000px;
+        -webkit-perspective-origin: 50% 50%;
+        perspective-origin: 50% 50%;
+        position: relative;
+
+    }
+
+    .orange
+    {
+        color:orange;
+        position: absolute;
+        top:60px;
+        left:70px;
+    }
+    .blue
+    {
+        color:blue;
+        position: absolute;
+        top:20px;
+        left:30px;
+
+    }
+    .line
+    {
+
+        -webkit-transform-origin: top  left;
+
+        -ms-transform-origin: top  left;
+
+        transform-origin: top  left;
+        width:3px;
+        height: 2000px;
+        background-color: orange;
+        display: block;
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
+        float:left;
+        cursor: pointer;
+        position: absolute;
+
+    }
+    .clicked
+    {
+        -webkit-animation-name: thumb;
+        -webkit-animation-duration: 200ms;
+
+        -webkit-animation-iteration-count: 20;
+        -webkit-animation-timing-function: ease;
+
+        -moz-animation-name: thumb;
+        -moz-animation-duration: 200ms;
+
+        -moz-animation-iteration-count: 20;
+        -moz-animation-timing-function: ease;
+    }
+    @-webkit-keyframes thumb {
+        0% { margin-left: -1px; }
+        20% {margin-left: 0px;}
+        40% { margin-left: 1px; }
+
+        60% { margin-left: -1px; }
+        80% {margin-left: 0px;}
+        100% { margin-left: 1px; }
+
+    }
+    @-moz-keyframes thumb {
+        0% { margin-left: -1px; }
+        20% {margin-left: 0px;}
+        40% { margin-left: 1px; }
+
+        60% { margin-left: -1px; }
+        80% {margin-left: 0px;}
+        100% { margin-left: 1px; }
+
+    }
+
+
+    .line-Y-1
+    {
+        -webkit-transform: rotateX(81deg) translateZ(-158px) translateY(0px) translateX(299px);
+        transform: rotateX(81deg) translateZ(-158px) translateY(0px) translateX(299px);
+    }
+    .line-Y-2
+    {
+        -webkit-transform: rotateX(82deg) translateZ(-158px) translateY(0px) translateX(343px);
+        transform: rotateX(82deg) translateZ(-158px) translateY(0px) translateX(343px);
+    }
+    .line-D-2
+    {
+        -webkit-transform: rotateX(80deg) translateZ(-170px) translateY(0px) translateX(282px);
+        transform: rotateX(80deg) translateZ(-170px) translateY(0px) translateX(282px);
+    }
+    .line-D-1
+    {
+        -webkit-transform: rotateX(83deg) translateZ(-172px) translateY(0px) translateX(224px);
+        transform: rotateX(83deg) translateZ(-172px) translateY(0px) translateX(224px);
+    }
+    .line-U {
+        -webkit-transform: rotateX(75deg) translateZ(-160px) translateY(0px) translateX(141px);
+        transform: rotateX(75deg) translateZ(-160px) translateY(0px) translateX(141px);
+    }
+    .line-L-2
+    {
+        -webkit-transform: rotateX(82deg) translateZ(-158px) translateY(0px) translateX(118px);
+        transform: rotateX(82deg) translateZ(-158px) translateY(0px) translateX(118px);
+    }
+    .line-L-1
+    {
+        -webkit-transform:rotateX(82deg) translateZ(-158px) translateY(0px) translateX(68px);
+        transform:rotateX(82deg) translateZ(-158px) translateY(0px) translateX(68px);
+    }
+</style>
+    <link href='http://fonts.googleapis.com/css?family=Exo+2:100&subset=latin,cyrillic' rel='stylesheet' type='text/css'>'
+<script>
+    Array.prototype.random = function () {
+        return this[Math.floor((Math.random() * this.length))];
+    };
+    $(function(){
+       $(".line").on("click",function(){
+           $(this).addClass("clicked");
+           var sound = $("#" + $(this).data("note") +"Note")[0];
+           sound.pause();
+           sound.currentTime = 0;
+           sound.play();
+           $(this).one('animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd', function(e) {
+              $(this).removeClass("clicked");
+           });
+
+       }) ;
+       ["c","d","e","f","g","a","b"].forEach(function(note){
+         $( "<audio id='" + note + "Note' preload='auto' >  <source src='24k-files/" + note  + ".ogg' type='audio/ogg'>" +
+                 "<source src='24k-files/" + note  + ".mp3' type='audio/mp3'>").appendTo('body');
+
+       });
+        var keyMap = {65:"c",83:"d",68:"e",70:"f",71:"g",72:"a",74:"b"};
+        $(window).on("keydown",function(e){
+                if(keyMap[e.keyCode])
+                {
+                    $(".line[data-note=" +keyMap[e.keyCode] + "]").click();
+                }
+        });
+
+
+    });
+
+
+</script>
+</head>
+<body>
+<div class="body">
+    <div class="content">
+
+            <div class="orange">ЛЮДИ</div>
+        <div class="line line-L-1" data-note="c"></div>
+        <div class="line line-L-2" data-note="d"></div>
+        <div class="line line-U" data-note="e"></div>
+        <div class="line line-D-1" data-note="f"></div>
+        <div class="line line-D-2" data-note="g"></div>
+        <div class="line line-Y-1" data-note="a"></div>
+        <div class="line line-Y-2" data-note="b"></div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
