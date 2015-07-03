@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="uk">
+    <meta charset="UTF-8">
+
+    <title>Words</title>
+    <link href='http://fonts.googleapis.com/css?family=Fira+Mono&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body{
+            -webkit-transform:translate3d(0,0,0);
+        }
+        .body {
+            display: inline-block;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            padding-left: 40px;
+            padding-right: 40px;
+            background-color: white;
+            width: 1200px;
+            height: 1600px;
+            transform: scale(0.5, 0.5) translateY(-50%) !important;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            overflow: hidden;
+            font-family: Fira Mono;
+            font-size: 90px;
+            line-height:90px;
+        }
+
+
+
+
+
+
+        body {
+            background-color: lightgray;
+            text-align: center;
+        }
+
+    </style>
+    <script>
+        Array.prototype.random = function () {
+            return this[Math.floor((Math.random() * this.length))];
+        };
+        Array.prototype.remove = function() {
+            var what, a = arguments, L = a.length, ax;
+            while (L && this.length) {
+                what = a[--L];
+                while ((ax = this.indexOf(what)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
+        $(function () {
+            function shuffleArray(a) {
+                "use strict";
+                var i, t, j;
+                for (i = a.length - 1; i > 0; i -= 1) {
+                    t = a[i];
+                    j = Math.floor(Math.random() * (i + 1));
+                    a[i] = a[j];
+                    a[j] = t;
+                }
+                return a;
+            }
+            var words ="гармонія любов досвід успіх халява океан вечірка удача чудо спонтанність смак пристрасть віра сила мрія сімя подвиг впертість світло мир вероніка оригінальність стартап ідеал ностальгія витримка успіх пригоди подорожі легенда позитив секс зміни свято вершина сміливисть щастя харизма муза мудрість алан свобода михайло".split(" ");
+
+            var letters = "й ц у к е н г ш щ з х ї ф и в а п р о л д ж є я ч с м і т ь б ю ѓ".split(' ');
+            var wordsByLength={};
+            shuffleArray(words);
+            var wordsLength = 0,letterCount,width=20,height=16;
+            words.forEach(function(e){
+                wordsLength+= e.length;
+                if(!wordsByLength[e.length])
+                {
+                    wordsByLength[e.length]=[];
+                }
+                wordsByLength[e.length].push(e);
+            ;});
+             letterCount=(width * height)-wordsLength;
+            var row= 0,i= 0,s = "";
+            function pushText(text)
+            {
+                s+=text;
+                i+=text.length;
+                if(i>=width)
+                {
+                    s+="\n";
+                    i=0;
+                    row++;
+                }
+            }
+            while(row < height)
+            {
+                var action;
+                if(letterCount!=0)
+                {
+                   action= ["L","L","L","L","L","W","W","W"].random();
+                }
+                if(action=="W")
+                {
+                    var maxLength=width - i;
+                    action="L";
+                    for(var tries=0; tries <10;tries++)
+                    {
+                        var m = (Math.random() * maxLength).toFixed(0);
+                        if(wordsByLength[m] && wordsByLength[m].length > 0)
+                        {
+                           var word =   wordsByLength[m].random();
+                           wordsByLength[m].remove(word);
+                           pushText(word);
+                           action="W";
+                           break;
+                        }
+                    }
+                }
+                if(action=="L")
+                {
+                    pushText(letters.random());
+                    letterCount--;
+                }
+            }
+            $(".content").text(s);
+
+
+        });
+    </script>
+</head>
+<body>
+<div class="body">
+    <div class="content">
+
+    </div>
+</div>
+</body>
+</html>
